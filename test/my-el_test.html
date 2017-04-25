@@ -1,0 +1,96 @@
+<!doctype html>
+
+<html>
+  <head>
+    <title>my-el test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../my-el.html">
+  </head>
+  <body>
+
+    <test-fixture id="basic">
+      <template>
+        <my-el></my-el>
+      </template>
+    </test-fixture>
+
+    <script>
+      suite('my-el', function() {
+
+          var el;
+
+          setup(function(){
+              el = fixture('basic');
+              console.log(el);
+
+              // stub('my-el',{
+              //   testEvent : function(){
+              //     console.log("response from stub...");
+              //   }
+              // });
+
+          });
+
+          test('instantiating the element works', function() {
+            //var element = fixture('basic');
+            assert.equal(el.is, 'my-el');
+
+            el.addEventListener("my-el-event", function(){
+                 console.log("Event listener", arguments);
+                //  done();
+            })
+            el.testEvent();
+            // done();
+          });
+
+
+          test("button submit test", function(){
+
+              el.$.txtName.value="123";
+              el.$.btnSubmit.click();
+
+              // expect(el.name).to.equal(123);
+              assert.equal(el.name, "123");
+
+          });
+
+
+      });
+ 
+
+      suite("element test suite", function(){
+
+           var el;
+
+          setup(function(){
+              el = fixture('basic');
+          });
+
+
+          test("repeater test", function(done){
+
+              el.items = [
+                "one",
+                "two",
+                "three"
+              ];
+
+              flush(function(){
+                var items = Polymer.dom(el.root).querySelectorAll("li");
+                assert.equal(items.length, el.items.length);
+                done();
+              });
+
+          });
+
+
+      });
+
+
+    </script>
+  </body>
+</html>

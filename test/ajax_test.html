@@ -1,0 +1,83 @@
+<!doctype html>
+
+<html>
+  <head>
+    <title>my-el test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+  </head>
+  <body>
+
+    <test-fixture id="simple-get">
+      <template>
+           <iron-ajax url="/getjson"></iron-ajax>
+      </template>
+    </test-fixture>
+
+    <script>
+
+      suite("<iron-ajax>", function(){
+
+           var ajax;
+           var request;
+           var server;
+           var responseHeader = {
+               json : {
+                   'Content-Type' : 'application/json'
+               }
+           };
+
+          setup(function(){
+              console.log("setup...");
+              server = sinon.fakeServer.create();
+              
+              server.respondWith(
+                  'GET',
+                  /\/getjson.*/,
+                    [
+                        200,
+                        responseHeader.json,
+                        '{"success":true}'
+                    ]
+                );
+
+          });
+
+        teardown(function() {
+            console.log("teardown..");
+            server.restore();
+        });
+
+
+        suite("when making simple GET request", function(){
+
+            setup(function(){
+                ajax = fixture("simple-get")
+            });
+
+            test("default reponse", function(){
+                request = ajax.generateRequest();
+                server.respond();
+
+                expect(request.response).to.be.ok;
+                expect(request.response).to.be.an('object');
+                expect(request.response.success).to.be.equal(true);
+
+            });
+
+        });
+         
+
+
+
+
+      });
+
+
+    </script>
+  </body>
+</html>

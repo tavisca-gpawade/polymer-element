@@ -1,0 +1,91 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+`my-el`
+test elememnt
+
+
+
+@demo demo/index.html 
+@test test/my-el_test.html
+-->
+
+<dom-module id="my-el">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]</h2>
+
+     <form on-submit="_onSubmit">
+          <input id='txtName' type="text" >
+          <button id="btnSubmit" type="submit">Submit</button>
+     </form>
+
+     <h3>Result  - [[name]]</h3>
+
+     <hr/>
+
+     <ul>
+     <template is="dom-repeat" items={{items}} 
+       as=item index-as=index
+       >
+       <li>[[item]]</li>
+       
+     </template>
+     </ul>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'my-el',
+
+      properties: {
+        prop1: {
+          type: String,
+          value: 'my-el',
+        },
+
+        items : {
+          type: Array
+        }
+
+      },
+
+
+
+      testFun: function(){
+          console.log("test fun");
+      },
+
+
+      /*
+      *  fire test event
+      *  
+      *  @event my-el-event
+      *  @param {string} key
+      */
+      testEvent : function(){
+        console.log("calling event ..");
+        this.fire("my-el-event", { "key": "somevalue"});
+      },
+
+
+      _onSubmit: function(event){
+          event.preventDefault();
+
+
+          this.set("name", this.$.txtName.value);
+           return false;
+
+      }
+
+
+
+    });
+  </script>
+</dom-module>
