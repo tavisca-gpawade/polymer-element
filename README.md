@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/tavisca-gpawade/polymer-element.svg?branch=master)](https://travis-ci.org/tavisca-gpawade/polymer-element)
 
+[![Coverage Status](https://coveralls.io/repos/github/tavisca-gpawade/polymer-element/badge.svg?branch=master)](https://coveralls.io/github/tavisca-gpawade/polymer-element?branch=master)
+
 
 # \<my-el\>
 
